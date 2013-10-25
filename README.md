@@ -1,0 +1,2 @@
+angular-jquery-dialog-service
+=============================
