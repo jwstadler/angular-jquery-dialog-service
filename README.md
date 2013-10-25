@@ -21,11 +21,15 @@ The `config` argument is a javascript object that configures the dialog. It sets
 {
 	template: [required - Script blocks id value]
 	model:    [optional - Javascript object to pass the dialog exposed as $scope.model to the controller]
-	options:  [optional - Javascript object containing the jquery-ui dialog parameters passed to the dialog ( [Jquery UI Dialog Documentaiton](http://api.jquery.ui/dialog)  ) ]
+	options:  [optional - Javascript object containing the jquery-ui dialog parameters passed to the dialog]
 }
 ```
 
+For further information about the options that can be passed to a jquery dialog please visit the [Jquery UI Dialog Widget Documentation][1] page.
+
 The dialog template must be stored as an angular template using the following syntax:
+
+
 
 ```html
 <script type="text/ng-template" id="dialogTemplate.html">
@@ -60,4 +64,4 @@ ESC, the error function will be called with no arguments.
 ## cancel()
 
 
-[1]: http://api.jquery.ui/dialog  "JQuery UI Dialog Widget"
+[1]: http://api.jquery.ui/dialog  "JQuery UI Dialog Documentation"
