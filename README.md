@@ -2,20 +2,13 @@ angular-jquery-dialog-service
 =============================
 
 # Overview
-This service allows you to easily work with jQuery UI dialogs from Angular.js.
+This service allows you to easily work with jQuery UI dialogs from Angular.js. A working sample can be viewed at http://plnkr.co/edit/ADYEsplnYr8NHqASCDgS.
 
 # Methods
-The service exposes the following methods for controlling the dialogs.
+The service exposes three methods for controlling the dialogs. These methods are `open()`, `close()`, and `cancel()`.
 
 ## open(id, config)
-The open method displays a dialog.
-
-`id`
-The `id` argument is just a unique name to identify this dialog when calling other methods on
-the service such as close and cancel.
-
-`config`
-The `config` argument is a javascript object that configures the dialog. It sets the template, the dialog's data, and the options for the dialog.
+The open method displays a dialog. The `id` argument is a unique name to identify this dialog when calling other methods on the service such as close and cancel. The `config` argument is a javascript object that configures the dialog. It sets the template, the dialog's data, and the options for the dialog.
 
 ```javascript
 {
@@ -58,10 +51,38 @@ the user calls close on the dialog, the argument passed to close will be passed 
 success function in the then. If cancel was called or the user clicks on the X or hits
 ESC, the error function will be called with no arguments.
 
+Here is an example of an open call that opens a dialog whose template is in a script block assigned an id of dialogTemplate.html:
 
-## close()
+```javascript
+dialogService.open(
+  "myDialog",
+  {
+    template: "dialogTemplate.html",
+    model: {
+      firstName: "Jason",
+      lastName: "Stadler",
+      update: false
+    },
+    options: {
+      autoOpen: false,
+      modal: true
+    }
+  }).then(
+      function(result) {
+        console.log("Closed");
+        console.log(result);
+      },
+      function(error) {
+        console.log("Cancelled");
+      }
+  );
+```
 
-## cancel()
+## close(id, model)
+
+This method is typically called by the dialog controller to close the dialog. The `id` argument is the same string passed to the open method. The `model` is the data the dialog should pass back in the promise. When the caller's `then`.
+
+## cancel(id)
 
 
 [1]: http://api.jquery.ui/dialog  "JQuery UI Dialog Documentation"

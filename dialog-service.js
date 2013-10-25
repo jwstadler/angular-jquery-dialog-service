@@ -1,19 +1,3 @@
-/*
---------------------------------------------------------------------------------
-dialogService.open(config):
---------------------------------------------------------------------------------
-The open method configures and displays a dialog to the user. The config 
-parameter must have a parentScope and 
-
-Promise resolution
-The open method returns a promise that is resolved when the user closes the 
-dialog. If the user calls close on the dialog, the argument passed to close 
-will be passed to the success function in the then. If cancel was called or the
-user clicks on the X or hits ESC, the error function will be called with no
-arguments.
-
-*/
-
 angular.module('dialogService', []).service('dialogService', 
   ['$rootScope', '$q', '$compile', '$templateCache', 
   function($rootScope, $q, $compile, $templateCache) {
