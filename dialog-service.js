@@ -107,6 +107,9 @@ angular.module('dialogService', []).service('dialogService',
 				dialog.deferred.reject();
 				dialog.scope.$destroy();
 
+				// Remove the object from the DOM
+				dialog.ref.remove();
+
 				// Delete the dialog from the cache
 				delete _this.dialogs[id];
 			};
