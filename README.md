@@ -2,20 +2,13 @@ angular-jquery-dialog-service
 =============================
 
 # Overview
-This service allows you to easily work with jQuery UI dialogs from Angular.js.
+This service allows you to easily work with jQuery UI dialogs from Angular.js. A working sample can be viewed at http://plnkr.co/edit/ADYEsplnYr8NHqASCDgS.
 
 # Methods
-The service exposes the following methods for controlling the dialogs.
+The service exposes three methods for controlling the dialogs. These methods are `open()`, `close()`, and `cancel()`.
 
 ## open(id, config)
-The open method displays a dialog. 
-
-`id`
-The `id` argument si just a unique name to identify this dialog when calling other methods on
-the service such as close and cancel. 
-
-`config`
-The `config` argument is a javascript object that configures the dialog. It sets the template, the dialog's data, and the options for the dialog.
+The open method displays a dialog. The `id` argument is a unique name to identify this dialog when calling other methods on the service such as close and cancel. The `config` argument is a javascript object that configures the dialog. It sets the template, the dialog's data, and the options for the dialog.
 
 ```javascript
 {
@@ -49,12 +42,38 @@ The dialog template must be stored as an angular template using the following sy
 
 In the case above, `config.template` would be set to `dialogTemplate.html`.
 
-The open method returns a promise that is resolved when the user closes the dialog. If 
-the user calls close on the dialog, the argument passed to close will be passed to the 
-success function in the then. If cancel was called or the user clicks on the X or hits 
-ESC, the error function will be called with no arguments.
+The open method returns a promise that is resolved when the user closes the dialog. If the user calls close on the dialog, the argument passed to close will be passed to the success function in the then. If cancel was called or the user clicks on the X or hits ESC, the error function will be called with no arguments.
+
+Here is an example of an open call that opens a dialog whose template is in a script block assigned an id of dialogTemplate.html:
+
+```javascript
+dialogService.open(
+  "myDialog",
+  {
+    template: "dialogTemplate.html",
+    model: {
+      firstName: "Jason",
+      lastName: "Stadler",
+      update: false
+    },
+    options: {
+      autoOpen: false,
+      modal: true
+    }
+  }).then(
+      function(result) {
+        console.log("Closed");
+        console.log(result);
+      },
+      function(error) {
+        console.log("Cancelled");
+      }
+  );
+```
 
 
-## close()
+## close(id, model)
 
-## cancel()
+This method is typically called by the dialog controller to close the dialog. The `id` argument is the same string passed to the open method. The `model` is the data the dialog should pass back in the promise. When the caller's `then`. 
+
+## cancel(id)
