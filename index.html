@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <script data-require="angular.js@*" data-semver="1.2.0-rc3-nonmin" src="http://code.angularjs.org/1.2.0-rc.3/angular.js"></script>
+    <script data-require="jquery@*" data-semver="2.0.3" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+    <link data-require="jqueryui@*" data-semver="1.10.0" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/css/smoothness/jquery-ui-1.10.0.custom.min.css" />
+    <script data-require="jqueryui@*" data-semver="1.10.0" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/jquery-ui.js"></script>
+
+    <script src="dialog-service.js"></script>
+    <script src="app.js"></script>
+  </head>
+
+  <body ng-app="dialogApp">
+
+
+    <!--
+      The button that displays the dialog when pressed
+    -->
+    <div ng-controller="buttonCtrl">
+      <button ng-click="openClick()">Test</button>    
+    </div>
+  
+  
+  
+    <!--
+      This is the template for the main dialog that is displayed. It uses the 
+      dialogCtrl controller in app.js.
+    -->
+    <script type="text/ng-template" id="dialogTemplate.html">
+      <div ng-controller="dialogCtrl">
+        First Name<br>
+        <input type="text" ng-model="model.firstName" /><br>
+        Last Name<br>
+        <input type="text" ng-model="model.lastName" /><br>
+        <button ng-click="cancelClick()">Cancel</button>
+        <button ng-show="model.update" ng-click="updateClick()">Update</button>
+        <button ng-show="!model.update" ng-click="saveClick()">Save</button>
+        <button ng-click="confirmClick()">Confirm</button>
+      </div>
+    </script>
+
+
+
+    <!--
+      This is the template for the confirmation popup. It uses the confirmCtrl 
+      controller in app.js.
+    -->
+    <script type="text/ng-template" id="confirmTemplate.html">
+      <div ng-controller="confirmCtrl">
+        Are you sure?
+        <button ng-click="confirmClick()">Yes</button>
+        <button ng-click="cancelClick()">No</button>
+      </div>
+    </script>
+  
+  
+    
+  </body>
+
+</html>
