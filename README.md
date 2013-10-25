@@ -38,7 +38,7 @@ The `model` argument contains the data that should be passed to the dialog contr
 
 Finally, the `options` argument contains all of the jQuery UI dialog options that you would normally pass in the call to `dialog(options)`. 
 
-The open method returns a promise that is resolved when the user closes the dialog. If the user calls close on the dialog, the argument passed to close will be passed to the success function in the then. If cancel was called or the user clicks on the X or hits ESC, the error function will be called with no arguments.
+The open method returns a promise that is resolved when the user closes the dialog. If the dialog controller calls dialogService.close(model), the resolve function will be called. If `cancel()` is called or the user closed the dialog using the X or ESC, the reject function will be called.
 
 Here is an example of an open call that opens a dialog whose template is in a script block assigned an id of "dialogTemplate.html":
 
@@ -64,10 +64,10 @@ dialogService.open("myDialog","dialogTemplate.html",
   );
 ```
 
-If the dialog controller calls dialogService.close(model), the resolve function will be called. If `cancel()` is called, the reject function will be called.
-
 ## close(id, model)
 
-This method is typically called by the dialog controller to close the dialog. The `id` argument is the same string passed to the open method. The `model` is the data the dialog should pass back in the promise.
+This method is typically called by the dialog controller to close the dialog. The `id` argument is the same string passed to the open method. The `model` is the data the dialog should pass back in the promise to the caller.
 
 ## cancel(id)
+
+This method is typically called by the dialog controller to cancel the dialog. The `id` argument is the same string passed to the open method.
