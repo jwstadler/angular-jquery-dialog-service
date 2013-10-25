@@ -29,13 +29,14 @@
     -->
     <script type="text/ng-template" id="dialogTemplate.html">
       <div ng-controller="dialogCtrl">
+        
         First Name<br>
         <input type="text" ng-model="model.firstName" /><br>
         Last Name<br>
         <input type="text" ng-model="model.lastName" /><br>
+
         <button ng-click="cancelClick()">Cancel</button>
-        <button ng-show="model.update" ng-click="updateClick()">Update</button>
-        <button ng-show="!model.update" ng-click="saveClick()">Save</button>
+        <button ng-click="saveClick()">Save</button>
         <button ng-click="confirmClick()">Confirm</button>
       </div>
     </script>
