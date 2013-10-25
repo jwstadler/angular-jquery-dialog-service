@@ -1,10 +1,9 @@
-// Code goes here
-
 var app = angular.module('dialogApp', ['dialogService']);
 
 app.controller('buttonCtrl', ['$scope', 'dialogService',
-  function($scope, dialogService) {
+  function($scope, dialogService) {    
     $scope.openClick = function() {
+      // Open the dialog
       dialogService.open(
         "myDialog",
         {
@@ -31,11 +30,6 @@ app.controller('buttonCtrl', ['$scope', 'dialogService',
         function(error) {
           console.log("Cancelled");
         }
-      )
-      .then(
-        function(result) {
-          console.log("Finally");
-        }
       );
     }
   }
@@ -44,16 +38,16 @@ app.controller('buttonCtrl', ['$scope', 'dialogService',
 app.controller('dialogCtrl', ['$scope', 'dialogService',
   function($scope, dialogService) {
 
+    // $scope.model contains the object passed to open in config.model
+
     $scope.saveClick = function() {
-      dialogService.close("myDialog", $scope.model)
-    }
-    $scope.updateClick = function() {
       dialogService.close("myDialog", $scope.model)
     }
     $scope.cancelClick = function() {
       dialogService.cancel("myDialog")
     }
     $scope.confirmClick = function() {
+      // Open another dialog here
       dialogService.open(
         "myConfirm",
         {
