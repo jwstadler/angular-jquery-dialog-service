@@ -16,20 +16,20 @@ The `template` argument specifies the id of the script block that contains the t
 ```
 <script type="text/ng-template" id="dialogTemplate.html">
 
-  <!-- Controller for Dialog -->
-  <div ng-controller="dialogCtrl">
+	<!-- Controller for Dialog -->
+	<div ng-controller="dialogCtrl">
 
-  	<!-- The form -->
-    First Name<br>
-    <input type="text" ng-model="model.firstName" /><br>
-    Last Name<br>
-    <input type="text" ng-model="model.lastName" /><br>
+		<!-- The form -->
+		First Name<br>
+		<input type="text" ng-model="model.firstName" /><br>
+		Last Name<br>
+		<input type="text" ng-model="model.lastName" /><br>
 
-    <!-- The buttons -->
-    <button ng-click="cancelClick()">Cancel</button>
-    <button ng-click="saveClick()">Save</button>
-    <button ng-click="confirmClick()">Confirm</button>
-  </div>
+		<!-- The buttons -->
+		<button ng-click="cancelClick()">Cancel</button>
+		<button ng-click="saveClick()">Save</button>
+		<button ng-click="confirmClick()">Confirm</button>
+	</div>
 </script>
 ```
 
@@ -45,24 +45,24 @@ Here is an example of an open call that opens a dialog whose template is in a sc
 
 ```javascript
 dialogService.open("myDialog","dialogTemplate.html",
-    model: {
-      firstName: "Jason",
-      lastName: "Stadler",
-      update: false
-    },
-    options: {
-      autoOpen: false,
-      modal: true
-    }
-  }).then(
-      function(result) {
-        console.log("Closed");
-        console.log(result);
-      },
-      function(error) {
-        console.log("Cancelled");
-      }
-  );
+		model: {
+			firstName: "Jason",
+			lastName: "Stadler",
+			update: false
+		},
+		options: {
+			autoOpen: false,
+			modal: true
+		}
+	}).then(
+			function(result) {
+				console.log("Closed");
+				console.log(result);
+			},
+			function(error) {
+				console.log("Cancelled");
+			}
+	);
 ```
 
 ## close(id, model)
