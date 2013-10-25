@@ -1,51 +1,51 @@
-angular.module('dialogService', []).service('dialogService', 
-  ['$rootScope', '$q', '$compile', '$templateCache', 
+angular.module('dialogService', []).service('dialogService',
+  ['$rootScope', '$q', '$compile', '$templateCache',
   function($rootScope, $q, $compile, $templateCache) {
 
       _this = this;
       this.dialogs = {};
 
-      this.open = function(id, config) {
+      this.open = function(id, template, model, options) {
 
         // Check our required arguments
         if (!angular.isDefined(id)) {
-          throw "dialogService requires id in call to open"; 
+          throw "dialogService requires id in call to open";
         }
 
-        if (!angular.isDefined(config.template)) {
-          throw "dialogService requires template defined on config in call to open"; 
+        if (!angular.isDefined(template)) {
+          throw "dialogService requires template in call to open";
         }
         
         // Set the defaults for model and options
-        if (!angular.isDefined(config.model)) {
-          config.model = null;
+        if (!angular.isDefined(model)) {
+          model = null;
         }
-        if (!angular.isDefined(config.options)) {
-          config.options = {};
+        if (!angular.isDefined(options)) {
+          options = {};
         }
 
         // Initialize our dialog structure
         var dialog = { scope: null, ref: null, deferred: null };
         
         // Get the template and trim to make it valid
-        var dialogTemplate = $templateCache.get(config.template);
+        var dialogTemplate = $templateCache.get(template);
         if (!angular.isDefined(dialogTemplate)) {
-          throw "dialogService could not find template " + config.template; 
+          throw "dialogService could not find template " + template;
         }
         dialogTemplate = dialogTemplate.trim();
         
         // Create a new scope, inherited from the parent.
         dialog.scope = $rootScope.$new();
-        dialog.scope.model = config.model;
+        dialog.scope.model = model;
         var dialogLinker = $compile(dialogTemplate);
         dialog.ref = $(dialogLinker(dialog.scope));
 
         // Hande the case where the user provides a custom close and also
         // the case where the user clicks the X or ESC and doesn't call
         // close or cancel.
-        var customCloseFn = config.options.close;
+        var customCloseFn = options.close;
         var cleanupFn = this.cleanup;
-        config.options.close = function(event, ui) {
+        options.close = function(event, ui) {
           if (customCloseFn) {
             customCloseFn(event, ui);
           }
@@ -53,7 +53,7 @@ angular.module('dialogService', []).service('dialogService',
         };
 
         // Initialize the dialog and open it
-        dialog.ref.dialog(config.options);
+        dialog.ref.dialog(options);
         dialog.ref.dialog("open");
 
         // Cache the dialog
@@ -107,7 +107,7 @@ angular.module('dialogService', []).service('dialogService',
       
       /* private */
       this.getDialog = function(id) {
-        return _this.dialogs[id];  
+        return _this.dialogs[id];
       };
 
     }
