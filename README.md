@@ -14,7 +14,7 @@ The open method displays a dialog. The `id` argument is a unique name to identif
 {
 	template: [required - Script block's id value]
 	model:    [optional - Javascript object to pass the dialog exposed as $scope.model to the controller]
-	options:  [required - Javascript object containing the jquery-ui dialog parameters passed ot the dialog (http://api.jqueryui.com/dialog) ]
+	options:  [optional - Javascript object containing the jquery-ui dialog parameters passed ot the dialog (http://api.jqueryui.com/dialog) ]
 }
 ```
 
@@ -40,7 +40,7 @@ The dialog template must be stored as an angular template using the following sy
 </script>
 ```
 
-In the case above, `config.template` would be set to `dialogTemplate.html`.
+In the case above, *config.template* would be set to *dialogTemplate.html*.
 
 The open method returns a promise that is resolved when the user closes the dialog. If the user calls close on the dialog, the argument passed to close will be passed to the success function in the then. If cancel was called or the user clicks on the X or hits ESC, the error function will be called with no arguments.
 
