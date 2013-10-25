@@ -21,7 +21,7 @@ The `config` argument is a javascript object that configures the dialog. It sets
 {
 	template: [required - Script blocks id value]
 	model:    [optional - Javascript object to pass the dialog exposed as $scope.model to the controller]
-	options:  [optional - Javascript object containing the jquery-ui dialog parameters passed to the dialog ( [1] ) ]
+	options:  [optional - Javascript object containing the jquery-ui dialog parameters passed to the dialog ( [Jquery UI Dialog Documentaiton](http://api.jquery.ui/dialog)  ) ]
 }
 ```
 
