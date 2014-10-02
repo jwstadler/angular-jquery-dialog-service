@@ -11,7 +11,7 @@ The service exposes three methods for controlling the dialogs. These methods are
 The open method displays a dialog. The `id` argument is a unique name to identify this dialog when calling other methods on the service such as close and cancel.
 
 
-The `template` argument specifies the id of the script block that contains the template to use for the dialog. Here is an example template:
+The `template` argument specifies the id of the script block that contains the template to use for the dialog or a url to a template fragment on the web server. Here is an example script block template:
 
 ```
 <script type="text/ng-template" id="dialogTemplate.html">

@@ -1,9 +1,9 @@
 angular.module('dialogService', []).service('dialogService',
-	['$rootScope', '$q', '$compile', '$templateCache',
-	function($rootScope, $q, $compile, $templateCache) {
+	['$rootScope', '$q', '$compile', '$templateCache', '$http',
+	function($rootScope, $q, $compile, $templateCache, $http) {
 
 			_this = this;
-			this.dialogs = {};
+			_this.dialogs = {};
 
 			this.open = function(id, template, model, options) {
 
@@ -31,48 +31,49 @@ angular.module('dialogService', []).service('dialogService',
 				}
 
 				// Initialize our dialog structure
-				var dialog = { scope: null, ref: null, deferred: null };
+				var dialog = { scope: null, ref: null, deferred: $q.defer() };
 
-				// Get the template and trim to make it valid
-				var dialogTemplate = $templateCache.get(template);
-				if (!angular.isDefined(dialogTemplate)) {
-					throw "dialogService could not find template " + template;
-				}
-				dialogTemplate = dialogTemplate.trim();
+				// Get the template from teh cache or url
+				loadTemplate(template).then(
+					function(dialogTemplate) {
 
-				// Create a new scope, inherited from the parent.
-				dialog.scope = $rootScope.$new();
-				dialog.scope.model = model;
-				var dialogLinker = $compile(dialogTemplate);
-				dialog.ref = $(dialogLinker(dialog.scope));
+						// Create a new scope, inherited from the parent.
+						dialog.scope = $rootScope.$new();
+						dialog.scope.model = model;
+						var dialogLinker = $compile(dialogTemplate);
+						dialog.ref = $(dialogLinker(dialog.scope));
 
-				// Hande the case where the user provides a custom close and also
-				// the case where the user clicks the X or ESC and doesn't call
-				// close or cancel.
-				var customCloseFn = dialogOptions.close;
-				var cleanupFn = this.cleanup;
-				dialogOptions.close = function(event, ui) {
-					if (customCloseFn) {
-						customCloseFn(event, ui);
+						// Handle the case where the user provides a custom close and also
+						// the case where the user clicks the X or ESC and doesn't call
+						// close or cancel.
+						var customCloseFn = dialogOptions.close;
+						dialogOptions.close = function(event, ui) {
+							if (customCloseFn) {
+								customCloseFn(event, ui);
+							}
+							cleanup(id);
+						};
+
+						// Initialize the dialog and open it
+						dialog.ref.dialog(dialogOptions);
+						dialog.ref.dialog("open");
+
+						// Cache the dialog
+						_this.dialogs[id] = dialog;
+
+					}, function(error) {
+						throw error;
 					}
-					cleanupFn(id);
-				};
-
-				// Initialize the dialog and open it
-				dialog.ref.dialog(dialogOptions);
-				dialog.ref.dialog("open");
-
-				// Cache the dialog
-				_this.dialogs[id] = dialog;
-
-				// Create our promise, cache it to complete later, and return it
-				dialog.deferred = $q.defer();
+				);
+				
+				// Return our cached promise to complete later
 				return dialog.deferred.promise;
 			};
 
 			this.close = function(id, result) {
+
 				// Get the dialog and throw exception if not found
-				var dialog = _this.getExistingDialog(id);
+				var dialog = getExistingDialog(id);
 
 				// Notify those waiting for the result
 				// This occurs first because the close calls the close handler on the
@@ -84,8 +85,9 @@ angular.module('dialogService', []).service('dialogService',
 			};
 
 			this.cancel = function(id) {
+
 				// Get the dialog and throw exception if not found
-				var dialog = _this.getExistingDialog(id);
+				var dialog = getExistingDialog(id);
 
 				// Notify those waiting for the result
 				// This occurs first because the cancel calls the close handler on the
@@ -96,10 +98,10 @@ angular.module('dialogService', []).service('dialogService',
 				dialog.ref.dialog("close");
 			};
 
-			/* private */
-			this.cleanup = function(id) {
+			function cleanup (id) {
+
 				// Get the dialog and throw exception if not found
-				var dialog = _this.getExistingDialog(id);
+				var dialog = getExistingDialog(id);
 
 				// This is only called from the close handler of the dialog
 				// in case the x or escape are used to cancel the dialog. Don't
@@ -114,8 +116,8 @@ angular.module('dialogService', []).service('dialogService',
 				delete _this.dialogs[id];
 			};
 
-			/* private */
-			this.getExistingDialog = function(id) {
+			function getExistingDialog(id) {
+
 				// Get the dialog from the cache
 				var dialog = _this.dialogs[id];
 				// Throw an exception if the dialog is not found
@@ -125,5 +127,35 @@ angular.module('dialogService', []).service('dialogService',
 				return dialog;
 			};
 
+			// Loads the template from cache or requests and adds it to the cache
+			function loadTemplate(template) {
+
+				var deferred = $q.defer();
+				var html = $templateCache.get(template);
+
+				if (angular.isDefined(html)) {
+					// The template was cached or a script so return it
+					html = html.trim();
+					deferred.resolve(html);
+				} else {
+					// Retrieve the template if it is a URL
+					return $http.get(template, { cache : $templateCache }).then(
+						function(response) {
+							var html = response.data;
+							if(!html || !html.length) {
+								// Nothing was found so reject the promise
+								return $q.reject("Template " + template + " was not found");
+							}
+							html = html.trim();
+							// Add it to the template cache using the url as the key
+							$templateCache.put(template, html);
+							return html;
+						}, function() {
+							return $q.reject("Template " + template + " was not found");
+			        	}
+			        );
+				}
+			    return deferred.promise;
+			}
 		}
 ]);
