@@ -2,7 +2,7 @@ angular.module('dialogService', []).service('dialogService',
 	['$rootScope', '$q', '$compile', '$templateCache', '$http',
 	function($rootScope, $q, $compile, $templateCache, $http) {
 
-			_this = this;
+			var _this = this;
 			_this.dialogs = {};
 
 			this.open = function(id, template, model, options) {
