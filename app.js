@@ -1,37 +1,45 @@
 var app = angular.module('dialogApp', ['dialogService']);
 
-app.controller('buttonCtrl', ['$scope', 'dialogService',
-	function($scope, dialogService) {
-		$scope.openClick = function() {
+app.controller('buttonCtrl', ['$scope', '$log', 'dialogService',
+	function($scope, $log, dialogService) {
+
+		$scope.openFromScriptClick = function() {
+			doDialog("template-from-script.html");
+		};
+
+		$scope.openFromUrlClick = function() {
+			doDialog("template-from-url1.html");
+		};
+
+		function doDialog(template) {
 
 			// The data for the dialog
 			var model = {
-					firstName: "Jason",
-					lastName: "Stadler"
-				};
+				firstName: "Jason",
+				lastName: "Stadler"
+			};
 
 			// jQuery UI dialog options
 			var options = {
-					autoOpen: false,
-					modal: true,
-					close: function(event, ui) {
-						console.log("Predefined close");
-					}
-				};
+				autoOpen: false,
+				modal: true,
+				close: function(event, ui) {
+					$log.debug("Predefined close");
+				}
+			};
 
-			// Open the dialog
-			dialogService.open("myDialog","dialogTemplate.html", model, options)
-			.then(
+			// Open the dialog using template from script
+			dialogService.open("myDialog", template, model, options).then(
 				function(result) {
-					console.log("Close");
-					console.log(result);
+					$log.debug("Close");
+					$log.debug(result);
 				},
 				function(error) {
-					console.log("Cancelled");
+					$log.debug("Cancelled");
 				}
 			);
 
-		};
+		}
 	}
 ]);
 
