@@ -8,7 +8,7 @@ app.controller('buttonCtrl', ['$scope', '$log', 'dialogService',
 		};
 
 		$scope.openFromUrlClick = function() {
-			doDialog("template-from-url1.html");
+			doDialog("template-from-url.html");
 		};
 
 		function doDialog(template) {
