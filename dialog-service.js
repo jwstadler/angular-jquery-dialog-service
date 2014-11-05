@@ -1,3 +1,4 @@
+(function($, angular){
 angular.module('dialogService', []).service('dialogService',
 	['$rootScope', '$q', '$compile', '$templateCache', '$http',
 	function($rootScope, $q, $compile, $templateCache, $http) {
@@ -159,3 +160,4 @@ angular.module('dialogService', []).service('dialogService',
 			}
 		}
 ]);
+})(jQuery, angular);
