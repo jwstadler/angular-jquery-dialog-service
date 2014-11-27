@@ -1,8 +1,8 @@
 angular-jquery-dialog-service
 =============================
 
-# Overview
-This service allows you to easily work with jQuery UI dialogs from Angular.js. A working sample can be viewed on [Plunker][2].
+# Overview 
+This service allows you to easily work with jQuery UI dialogs from Angular.js. A working sample can be viewed on [Plunker][2]. Although it hasn't been tested, the library should work with most browsers including IE 8, just be sure to check and use the appropriate version of jQuery (see http://jquery.com/browser-support/ for more information) and jQuery UI (see http://jqueryui.com).
 
 # Methods
 The service exposes three methods for controlling the dialogs. These methods are `open()`, `close()`, and `cancel()`.

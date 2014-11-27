@@ -127,6 +127,11 @@ angular.module('dialogService', []).service('dialogService',
 				return dialog;
 			};
 
+			// Since IE8 doesn't support string.trim, provide a manual method.
+			function trim(string) {
+				return string ? string.replace(/^\s+|\s+$/g, '') : string;
+			}
+
 			// Loads the template from cache or requests and adds it to the cache
 			function loadTemplate(template) {
 
@@ -135,7 +140,7 @@ angular.module('dialogService', []).service('dialogService',
 
 				if (angular.isDefined(html)) {
 					// The template was cached or a script so return it
-					html = html.trim();
+					html = trim(html);
 					deferred.resolve(html);
 				} else {
 					// Retrieve the template if it is a URL
@@ -146,7 +151,7 @@ angular.module('dialogService', []).service('dialogService',
 								// Nothing was found so reject the promise
 								return $q.reject("Template " + template + " was not found");
 							}
-							html = html.trim();
+							html = trim(html);
 							// Add it to the template cache using the url as the key
 							$templateCache.put(template, html);
 							return html;
