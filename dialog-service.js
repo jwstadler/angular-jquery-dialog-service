@@ -4,6 +4,7 @@ angular.module('dialogService', []).service('dialogService',
 
 			var _this = this;
 			_this.dialogs = {};
+			_this.dialogDefaults = {};
 
 			this.open = function(id, template, model, options) {
 
@@ -25,7 +26,7 @@ angular.module('dialogService', []).service('dialogService',
 				// Extend is used instead of copy because window references are
 				// often used in the options for positioning and they can't be deep
 				// copied.
-				var dialogOptions = {};
+				var dialogOptions = angular.extend({}, _this.dialogDefaults);
 				if (angular.isDefined(options)) {
 					angular.extend(dialogOptions, options);
 				}
@@ -96,6 +97,11 @@ angular.module('dialogService', []).service('dialogService',
 
 				// Cancel and close the dialog (must be last)
 				dialog.ref.dialog("close");
+			};
+
+			this.setDialogDefaults = function(defaults) {
+
+				_this.dialogDefaults = defaults;
 			};
 
 			function cleanup (id) {
