@@ -41,7 +41,7 @@ angular.module('dialogService', []).service('dialogService',
 						dialog.scope = $rootScope.$new();
 						dialog.scope.model = model;
 						var dialogLinker = $compile(dialogTemplate);
-						dialog.ref = $(dialogLinker(dialog.scope));
+						dialog.ref = jQuery(dialogLinker(dialog.scope));
 
 						// Handle the case where the user provides a custom close and also
 						// the case where the user clicks the X or ESC and doesn't call
